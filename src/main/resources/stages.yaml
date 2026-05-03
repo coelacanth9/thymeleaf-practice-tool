@@ -1,0 +1,286 @@
+- id: 1
+  task: greeting の値を <p> タグで表示してください
+  model:
+    greeting: Hello
+  scaffold: <p></p>
+  hint: 'th:text="${greeting}" を <p> タグに付けてみましょう'
+  expectedHtml: <p>Hello</p>
+  requiredSyntax:
+    - th:text
+    - <p
+  judgeMode: text
+
+- id: 2
+  task: 「こんにちは、田中さん！」と表示してください（リテラル置換 | | を使って）
+  model:
+    name: 田中
+  scaffold: <p></p>
+  hint: 'th:text="|こんにちは、${name}さん！|" を使いましょう'
+  expectedHtml: <p>こんにちは、田中さん！</p>
+  requiredSyntax:
+    - th:text
+    - '|'
+  judgeMode: text
+
+- id: 3
+  task: age が 18 以上の場合だけ「成年です」と表示してください
+  model:
+    age: 20
+  scaffold: |-
+    <div>
+
+    </div>
+  hint: 'th:if="${age} >= 18" をタグに付けてみましょう'
+  expectedHtml: <div>成年です</div>
+  requiredSyntax:
+    - th:if
+  judgeMode: text
+
+- id: 4
+  task: age が 18 未満の場合だけ「未成年です」と表示してください（th:unless を使って）
+  model:
+    age: 15
+  scaffold: |-
+    <div>
+
+    </div>
+  hint: 'th:unless="${age} >= 18" をタグに付けてみましょう'
+  expectedHtml: <div>未成年です</div>
+  requiredSyntax:
+    - th:unless
+  judgeMode: text
+
+- id: 5
+  task: users リストを箇条書きで全部表示してください
+  model:
+    users:
+      - apple
+      - banana
+      - cherry
+  scaffold: |-
+    <ul>
+
+    </ul>
+  hint: 'th:each="item : ${users}" を <li> タグに付けてみましょう'
+  expectedHtml: <ul><li>apple</li><li>banana</li><li>cherry</li></ul>
+  requiredSyntax:
+    - th:each
+    - <li
+  judgeMode: text
+
+- id: 6
+  task: persons の名前と年齢を表形式で表示してください
+  model:
+    persons:
+      - name: 鈴木
+        age: 28
+      - name: 田中
+        age: 48
+      - name: 佐藤
+        age: 35
+  scaffold: |-
+    <table>
+      <tr><th>名前</th><th>年齢</th></tr>
+
+    </table>
+  hint: 'th:each="person : ${persons}" を <tr> タグに付けて、${person.name} と ${person.age} を <td> で表示しましょう'
+  expectedHtml: '<table><tr><th>名前</th><th>年齢</th></tr><tr><td>鈴木</td><td>28</td></tr><tr><td>田中</td><td>48</td></tr><tr><td>佐藤</td><td>35</td></tr></table>'
+  requiredSyntax:
+    - th:each
+    - <tr
+    - <td
+  judgeMode: text
+
+- id: 7
+  task: 'items を「1: A」「2: B」「3: C」の形式でリスト表示してください（ステータス変数 stat.count を使って）'
+  model:
+    items:
+      - A
+      - B
+      - C
+  scaffold: |-
+    <ul>
+
+    </ul>
+  hint: 'th:each="item, stat : ${items}" を使い、th:text="|${stat.count}: ${item}|" で表示しましょう'
+  expectedHtml: '<ul><li>1: A</li><li>2: B</li><li>3: C</li></ul>'
+  requiredSyntax:
+    - th:each
+    - stat
+    - <li
+  judgeMode: text
+
+- id: 8
+  task: 'itemId を使って「商品」というリンクを生成してください（クエリストリング形式: /?id=101）'
+  model:
+    itemId: 101
+  scaffold: <a>商品</a>
+  hint: 'th:href="@{/(id=${itemId})}" を使いましょう'
+  expectedHtml: '<a href="/?id=101">商品</a>'
+  requiredSyntax:
+    - th:href
+  judgeMode: dom
+
+- id: 9
+  task: name の値をテキストボックスの初期値として表示してください
+  model:
+    name: 田中
+  scaffold: '<input type="text">'
+  hint: 'th:value="${name}" を input タグに付けてみましょう'
+  expectedHtml: '<input type="text" value="田中">'
+  requiredSyntax:
+    - th:value
+  judgeMode: dom
+
+- id: 10
+  task: itemId を使って /items/5/edit に送信するフォームを作ってください
+  model:
+    itemId: 5
+  scaffold: |-
+    <form>
+      <button type="submit">編集</button>
+    </form>
+  hint: "th:action=\"'/items/'+${itemId}+'/edit'\" を form タグに付けてみましょう"
+  expectedHtml: '<form action="/items/5/edit"><button type="submit">編集</button></form>'
+  requiredSyntax:
+    - th:action
+  judgeMode: dom
+
+- id: 11
+  task: selectedLang が選択済みになるようにセレクトボックスを表示してください
+  model:
+    selectedLang: Python
+    langs:
+      - Java
+      - Python
+      - Ruby
+  scaffold: |-
+    <select>
+      <option th:each="lang : ${langs}" th:value="${lang}" th:text="${lang}"></option>
+    </select>
+  hint: 'th:selected="${lang == selectedLang}" を option タグに付けてみましょう'
+  expectedHtml: '<select><option value="Java">Java</option><option value="Python" selected="selected">Python</option><option value="Ruby">Ruby</option></select>'
+  requiredSyntax:
+    - th:selected
+  judgeMode: dom
+
+- id: 12
+  task: agreed が true のときチェックボックスをチェック済みにしてください
+  model:
+    agreed: true
+  scaffold: '<input type="checkbox">'
+  hint: 'th:checked="${agreed}" を input タグに付けてみましょう'
+  expectedHtml: '<input type="checkbox" checked="checked">'
+  requiredSyntax:
+    - th:checked
+  judgeMode: dom
+
+- id: 13
+  task: message の値を HTML タグごと表示してください（th:utext を使って）
+  model:
+    message: '<strong>重要</strong>なお知らせ'
+  scaffold: <p></p>
+  hint: 'th:utext="${message}" を <p> タグに付けてみましょう（th:text だとタグがエスケープされます）'
+  expectedHtml: '<p><strong>重要</strong>なお知らせ</p>'
+  requiredSyntax:
+    - th:utext
+    - <p
+  judgeMode: dom
+
+- id: 14
+  task: show が true のときだけ「表示されます」と出力してください（th:block を使って）
+  model:
+    show: true
+    message: 表示されます
+  scaffold: ''
+  hint: '<th:block th:if="${show}" th:text="${message}"></th:block> を使いましょう'
+  expectedHtml: 表示されます
+  requiredSyntax:
+    - th:block
+    - th:if
+  judgeMode: text
+
+- id: 15
+  task: person の名前と年齢を「鈴木（28歳）」の形式で表示してください（th:object と *{} を使って）
+  model:
+    person:
+      name: 鈴木
+      age: 28
+  scaffold: |-
+    <div th:object="${person}">
+
+    </div>
+  hint: '<div th:object="${person}"> の中で *{name} や *{age} を使いましょう'
+  expectedHtml: <div>鈴木（28歳）</div>
+  requiredSyntax:
+    - th:object
+    - '*{'
+  judgeMode: text
+
+- id: 16
+  task: lastName と firstName を結合して「鈴木 太郎」と表示してください（th:with でローカル変数を作って）
+  model:
+    lastName: 鈴木
+    firstName: 太郎
+  scaffold: <p></p>
+  hint: 'th:with="fullName=${lastName} + '' '' + ${firstName}" でローカル変数を定義し、th:text="${fullName}" で表示しましょう'
+  expectedHtml: <p>鈴木 太郎</p>
+  requiredSyntax:
+    - th:with
+    - th:text
+    - <p
+  judgeMode: text
+
+- id: 17
+  task: lang の値によって「Javaです」「Pythonです」「その他です」と分岐表示してください（th:switch / th:case を使って）
+  model:
+    lang: Java
+  scaffold: |-
+    <div th:switch="${lang}">
+
+    </div>
+  hint: '<span th:case="''Java''">Javaです</span> のように th:case で各値を分岐しましょう'
+  expectedHtml: <div>Javaです</div>
+  requiredSyntax:
+    - th:switch
+    - th:case
+  judgeMode: text
+
+- id: 18
+  task: itemId を使って /item/5 へのリンクを作ってください（パスパラメータ形式）
+  model:
+    itemId: 5
+  scaffold: <a>商品詳細</a>
+  hint: 'th:href="@{/item/{id}(id=${itemId})}" を使いましょう'
+  expectedHtml: '<a href="/item/5">商品詳細</a>'
+  requiredSyntax:
+    - th:href
+    - '{id}'
+  judgeMode: dom
+
+- id: 19
+  task: price と quantity を掛けた合計金額を表示してください
+  model:
+    price: 100
+    quantity: 3
+  scaffold: <p></p>
+  hint: 'th:text="${price * quantity}" を使いましょう'
+  expectedHtml: <p>300</p>
+  requiredSyntax:
+    - th:text
+    - '*'
+    - <p
+  judgeMode: text
+
+- id: 20
+  task: age が 18 以上なら「成年」、未満なら「未成年」と表示してください（三項演算子を使って）
+  model:
+    age: 20
+  scaffold: <p></p>
+  hint: "th:text=\"${age >= 18 ? '成年' : '未成年'}\" を使いましょう"
+  expectedHtml: <p>成年</p>
+  requiredSyntax:
+    - th:text
+    - '?'
+    - <p
+  judgeMode: text

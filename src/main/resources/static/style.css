@@ -1,0 +1,101 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: #1a1a1a;
+  color: #c8d8c8;
+  font-family: 'Consolas', 'Courier New', monospace;
+  font-size: 14px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  flex: 1;
+  height: 100vh;
+}
+.panel {
+  border-right: 1px solid #4a7a4a;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow-y: auto;
+}
+.section {
+  border: 1px solid #4a7a4a;
+  padding: 8px 12px;
+}
+.label { color: #6aaa6a; margin-bottom: 4px; }
+textarea {
+  width: 100%;
+  background: #1a1a1a;
+  color: #c8d8c8;
+  border: 1px solid #4a7a4a;
+  font-family: inherit;
+  font-size: 14px;
+  padding: 8px;
+  resize: vertical;
+  min-height: 100px;
+}
+textarea:focus { outline: 1px solid #6aaa6a; }
+button {
+  background: #1a1a1a;
+  color: #c8d8c8;
+  border: 1px solid #4a7a4a;
+  font-family: inherit;
+  font-size: 14px;
+  padding: 6px 16px;
+  cursor: pointer;
+}
+button:hover { background: #2a3a2a; }
+.btn {
+  background: #1a1a1a;
+  color: #c8d8c8;
+  border: 1px solid #4a7a4a;
+  font-family: inherit;
+  font-size: 14px;
+  padding: 6px 16px;
+  cursor: pointer;
+  text-decoration: none;
+}
+.btn:hover { background: #2a3a2a; }
+.buttons { display: flex; gap: 8px; flex-wrap: wrap; }
+.preview-content {
+  background: white;
+  color: black;
+  padding: 12px;
+  min-height: 80px;
+  font-family: sans-serif;
+}
+.result-ok { color: #4afa4a; padding: 4px 0; }
+.result-ng { color: #fa6a6a; padding: 4px 0; }
+.hint { color: #faaa4a; }
+.diff-message { color: #faaa4a; font-size: 12px; margin-top: 4px; }
+.error { color: #fa6a6a; font-size: 12px; }
+.empty-preview { color: #6aaa6a; }
+ul { padding-left: 1.5em; }
+table { border-collapse: collapse; }
+th, td { border: 1px solid #999; padding: 4px 8px; }
+.welcome-container {
+  max-width: 640px;
+  margin: 40px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.welcome-title { font-size: 18px; margin-bottom: 8px; }
+.welcome-steps { padding-left: 1.5em; display: flex; flex-direction: column; gap: 16px; }
+.welcome-steps li { padding-left: 4px; }
+.welcome-steps p { margin-bottom: 6px; }
+.code {
+  background: #0d0d0d;
+  border: 1px solid #4a7a4a;
+  padding: 6px 10px;
+  margin: 4px 0;
+  font-family: inherit;
+}
+.btn-start { display: inline-block; margin-top: 8px; font-size: 16px; padding: 10px 24px; }
+.demo-row { display: flex; align-items: flex-start; gap: 16px; margin-top: 8px; }
+.demo-col { flex: 1; display: flex; flex-direction: column; gap: 4px; }
+.demo-arrow { color: #6aaa6a; font-size: 20px; }

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Thymeleaf Practice Tool</title>
+<link rel="stylesheet" th:href="@{/style.css}">
+</head>
+<body>
+<div class="container">
+
+  <!-- 左パネル -->
+  <div class="panel">
+    <div class="section">
+      <span th:text="|ステージ ${stageNum} / ${totalStages}|">ステージ 1 / 1</span>
+    </div>
+
+    <div class="section">
+      <div class="label">課題:</div>
+      <div th:text="${task}">課題文</div>
+    </div>
+
+    <div class="section">
+      <div class="label">与えられたデータ:</div>
+      <div th:each="entry : ${modelData}">
+        <span th:text="${entry.key}">key</span> = <span th:text="${entry.value}">value</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="label">期待される表示:</div>
+      <div th:utext="${expectedHtml}"></div>
+    </div>
+
+    <form method="post" th:action="@{/stage/{id}/judge(id=${stageId})}">
+      <div class="section" style="margin-bottom:8px;">
+        <div class="label">[HTML入力欄]</div>
+        <textarea name="userHtml" rows="6" spellcheck="false" th:text="${scaffold}"></textarea>
+      </div>
+
+      <div th:if="${correct != null}" style="margin-bottom:8px;">
+        <div th:if="${correct}" class="result-ok">&#x2713; 正解！</div>
+        <div th:if="${!correct}" class="result-ng">&#x2715; もう一度試してみましょう</div>
+        <div th:if="${diffMessage != null}" class="diff-message" th:text="${diffMessage}"></div>
+      </div>
+
+      <div th:if="${error != null}" class="error section" th:text="${error}" style="margin-bottom:8px;"></div>
+
+      <div th:if="${showHint}" class="section hint" style="margin-bottom:8px;">
+        <div class="label">ヒント:</div>
+        <div th:text="${hint}"></div>
+      </div>
+
+      <div class="buttons">
+        <button type="submit">判定する</button>
+        <button type="submit" name="showHint" value="true">ヒント</button>
+        <a th:if="${prevStageId != null}" th:href="@{/stage/{id}(id=${prevStageId})}" class="btn">&lt; 前へ</a>
+        <a th:if="${nextStageId != null}" th:href="@{/stage/{id}(id=${nextStageId})}" class="btn">次へ &gt;</a>
+        <a th:href="@{/}" class="btn">TOP</a>
+      </div>
+    </form>
+  </div>
+
+  <!-- 右パネル -->
+  <div class="panel">
+    <div class="section">
+      <span>[プレビュー]</span>
+    </div>
+    <div class="section">
+      <div th:if="${preview == null}" class="preview-content empty-preview">（empty）</div>
+      <div th:if="${preview != null}" class="preview-content" th:utext="${preview}"></div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

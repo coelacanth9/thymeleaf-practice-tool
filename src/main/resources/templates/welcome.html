@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Thymeleaf Practice Tool</title>
+<link rel="stylesheet" th:href="@{/style.css}">
+</head>
+<body>
+<div class="welcome-container">
+  <div class="section">
+    <h1 class="welcome-title">Thymeleaf Practice Tool</h1>
+    <p>Thymeleafテンプレートの書き方を練習するツールです。</p>
+  </div>
+
+  <div class="section">
+    <div class="label">前提</div>
+    <p>Controllerでのmodel属性設定は済んでいるものとします。</p>
+  </div>
+
+  <div class="section">
+    <div class="label">使い方</div>
+    <ol class="welcome-steps">
+      <li>
+        <p>「与えられたデータ」で変数を確認する</p>
+        <p>画面に表示される</p>
+        <pre class="code">greeting = Hello</pre>
+        <p>は、Controller側で以下が実行されている状態を意味します</p>
+        <pre class="code">model.addAttribute("greeting", "Hello");</pre>
+      </li>
+      <li>
+        <p>「期待される表示」と同じ結果になるようHTML入力欄にThymeleaf構文を記述する</p>
+      </li>
+      <li>
+        <p>「判定する」で正誤チェック</p>
+      </li>
+    </ol>
+  </div>
+
+  <div class="section">
+    <div class="label">練習画面イメージ</div>
+    <div class="demo-row">
+      <div class="demo-col">
+        <div class="label">入力</div>
+        <pre class="code">&lt;p th:text="${greeting}"&gt;&lt;/p&gt;</pre>
+      </div>
+      <div class="demo-arrow">&gt;&gt;</div>
+      <div class="demo-col">
+        <div class="label">プレビュー</div>
+        <div class="preview-content">Hello</div>
+      </div>
+    </div>
+  </div>
+
+  <a th:href="@{/stage/1}" class="btn btn-start">練習を始める &gt;&gt;</a>
+</div>
+</body>
+</html>
