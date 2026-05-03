@@ -29,7 +29,7 @@ public class PracticeController {
     @GetMapping("/stage/{id}")
     public String show(@PathVariable int id, Model model) {
         Stage stage = stageLoader.findById(id).orElseThrow();
-        populateModel(model, stage, stage.scaffold(), false);
+        populateModel(model, stage, stage.scaffold(), 0);
         return "practice";
     }
 
@@ -37,11 +37,11 @@ public class PracticeController {
     public String judge(
             @PathVariable int id,
             @RequestParam String userHtml,
-            @RequestParam(required = false) String showHint,
+            @RequestParam(required = false, defaultValue = "0") int hintLevel,
             Model model) {
 
         Stage stage = stageLoader.findById(id).orElseThrow();
-        populateModel(model, stage, userHtml, "true".equals(showHint));
+        populateModel(model, stage, userHtml, hintLevel);
 
         JudgeService.JudgeResult result = judgeService.judge(userHtml, stage);
         if (result.preview() != null) {
@@ -58,7 +58,7 @@ public class PracticeController {
         return "practice";
     }
 
-    private void populateModel(Model model, Stage stage, String scaffold, boolean showHint) {
+    private void populateModel(Model model, Stage stage, String scaffold, int hintLevel) {
         model.addAttribute("stageId", stage.id());
         model.addAttribute("stageNum", stage.id());
         model.addAttribute("totalStages", stageLoader.totalCount());
@@ -67,7 +67,9 @@ public class PracticeController {
         model.addAttribute("expectedHtml", stage.expectedHtml());
         model.addAttribute("scaffold", scaffold);
         model.addAttribute("hint", stage.hint());
-        model.addAttribute("showHint", showHint);
+        model.addAttribute("hintDetail", stage.hintDetail());
+        model.addAttribute("hintLevel", hintLevel);
+        model.addAttribute("displayMode", stage.displayMode());
         stageLoader.findById(stage.id() + 1)
                 .ifPresent(next -> model.addAttribute("nextStageId", next.id()));
         stageLoader.findById(stage.id() - 1)

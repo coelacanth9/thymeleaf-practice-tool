@@ -60,6 +60,7 @@ button:hover { background: #2a3a2a; }
   text-decoration: none;
 }
 .btn:hover { background: #2a3a2a; }
+.btn.disabled { color: #4a6a4a; cursor: default; pointer-events: none; }
 .buttons { display: flex; gap: 8px; flex-wrap: wrap; }
 .preview-content {
   background: white;
@@ -99,3 +100,12 @@ th, td { border: 1px solid #999; padding: 4px 8px; }
 .demo-row { display: flex; align-items: flex-start; gap: 16px; margin-top: 8px; }
 .demo-col { flex: 1; display: flex; flex-direction: column; gap: 4px; }
 .demo-arrow { color: #6aaa6a; font-size: 20px; }
+select {
+  background: #1a1a1a;
+  color: #c8d8c8;
+  border: 1px solid #4a7a4a;
+  font-family: inherit;
+  font-size: 14px;
+  padding: 6px 10px;
+}
+select:focus { outline: 1px solid #6aaa6a; }

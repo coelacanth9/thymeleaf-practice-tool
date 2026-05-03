@@ -51,7 +51,10 @@
     </div>
   </div>
 
-  <a th:href="@{/stage/1}" class="btn btn-start">練習を始める &gt;&gt;</a>
+  <div class="buttons">
+    <a th:href="@{/stage/1}" class="btn btn-start">練習を始める &gt;&gt;</a>
+    <a th:if="${@environment.matchesProfiles('dev')}" th:href="@{/editor}" class="btn btn-start">ステージを作成する</a>
+  </div>
 </div>
 </body>
 </html>

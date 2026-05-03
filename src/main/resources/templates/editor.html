@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>ステージエディター</title>
+<link rel="stylesheet" th:href="@{/style.css}">
+</head>
+<body>
+<form method="post" th:action="@{/editor}" class="welcome-container">
+  <div class="section">
+    <h1 class="welcome-title">ステージエディター</h1>
+    <p>ステージ <span th:text="${nextId}"></span> を作成します</p>
+  </div>
+
+  <div th:if="${error}" class="section">
+    <span class="error" th:text="${error}"></span>
+  </div>
+
+  <div class="section">
+    <div class="label">問題文</div>
+    <textarea name="task" rows="3" placeholder="例: greeting の値を &lt;p&gt; タグで表示してください"></textarea>
+  </div>
+
+  <div class="section">
+    <div class="label">モデルデータ（YAML形式）</div>
+    <textarea name="modelYaml" rows="4" placeholder="例:&#10;greeting: Hello&#10;name: 田中"></textarea>
+  </div>
+
+  <div class="section">
+    <div class="label">初期HTML（scaffold）</div>
+    <textarea name="scaffold" rows="4" placeholder="例: &lt;p&gt;&lt;/p&gt;"></textarea>
+  </div>
+
+  <div class="section">
+    <div class="label">ヒント1（属性名）</div>
+    <textarea name="hint" rows="2" placeholder="例: th:text を使いましょう"></textarea>
+  </div>
+
+  <div class="section">
+    <div class="label">ヒント2（詳細）</div>
+    <textarea name="hintDetail" rows="2" placeholder="例: th:text=&quot;${greeting}&quot; を &lt;p&gt; タグに付けてみましょう"></textarea>
+  </div>
+
+  <div class="section">
+    <div class="label">期待するHTML</div>
+    <textarea name="expectedHtml" rows="3" placeholder="例: &lt;p&gt;Hello&lt;/p&gt;"></textarea>
+  </div>
+
+  <div class="section">
+    <div class="label">必要な構文（1行1要素）</div>
+    <textarea name="requiredSyntax" rows="3" placeholder="例:&#10;th:text&#10;&lt;p"></textarea>
+  </div>
+
+  <div class="section">
+    <div class="label">判定モード</div>
+    <select name="judgeMode">
+      <option value="text">text（テキスト一致）</option>
+      <option value="dom">dom（DOM構造一致）</option>
+    </select>
+  </div>
+
+  <div class="buttons">
+    <button type="submit">保存して練習画面へ</button>
+    <a th:href="@{/}" class="btn">トップへ戻る</a>
+  </div>
+</form>
+</body>
+</html>

@@ -9,7 +9,9 @@ public record Stage(
         Map<String, Object> model,
         String scaffold,
         String hint,
+        String hintDetail,
         String expectedHtml,
         List<String> requiredSyntax,
-        String judgeMode
+        String judgeMode,
+        String displayMode
 ) {}

@@ -27,8 +27,10 @@
     </div>
 
     <div class="section">
-      <div class="label">期待される表示:</div>
-      <div th:utext="${expectedHtml}"></div>
+      <div th:if="${displayMode == 'code'}" class="label">期待される出力HTML:</div>
+      <div th:if="${displayMode != 'code'}" class="label">期待される表示:</div>
+      <pre th:if="${displayMode == 'code'}" class="code" th:text="${expectedHtml}"></pre>
+      <div th:if="${displayMode != 'code'}" class="preview-content" th:utext="${expectedHtml}"></div>
     </div>
 
     <form method="post" th:action="@{/stage/{id}/judge(id=${stageId})}">
@@ -37,7 +39,7 @@
         <textarea name="userHtml" rows="6" spellcheck="false" th:text="${scaffold}"></textarea>
       </div>
 
-      <div th:if="${correct != null}" style="margin-bottom:8px;">
+      <div th:if="${correct != null}" id="result" style="margin-bottom:8px;">
         <div th:if="${correct}" class="result-ok">&#x2713; 正解！</div>
         <div th:if="${!correct}" class="result-ng">&#x2715; もう一度試してみましょう</div>
         <div th:if="${diffMessage != null}" class="diff-message" th:text="${diffMessage}"></div>
@@ -45,16 +47,18 @@
 
       <div th:if="${error != null}" class="error section" th:text="${error}" style="margin-bottom:8px;"></div>
 
-      <div th:if="${showHint}" class="section hint" style="margin-bottom:8px;">
+      <div th:if="${hintLevel >= 1}" class="section hint" style="margin-bottom:8px;">
         <div class="label">ヒント:</div>
         <div th:text="${hint}"></div>
+        <div th:if="${hintLevel >= 2 and hintDetail != null}" th:text="${hintDetail}" style="margin-top:6px;"></div>
       </div>
 
       <div class="buttons">
         <button type="submit">判定する</button>
-        <button type="submit" name="showHint" value="true">ヒント</button>
-        <a th:if="${prevStageId != null}" th:href="@{/stage/{id}(id=${prevStageId})}" class="btn">&lt; 前へ</a>
-        <a th:if="${nextStageId != null}" th:href="@{/stage/{id}(id=${nextStageId})}" class="btn">次へ &gt;</a>
+        <button th:if="${hintLevel == 0}" type="submit" name="hintLevel" value="1">ヒント</button>
+        <button th:if="${hintLevel == 1 and hintDetail != null}" type="submit" name="hintLevel" value="2">もっとヒント</button>
+        <a th:href="${prevStageId != null ? '/stage/' + prevStageId : null}" th:classappend="${prevStageId == null ? 'disabled' : ''}" class="btn">&lt; 前へ</a>
+        <a th:href="${nextStageId != null ? '/stage/' + nextStageId : null}" th:classappend="${nextStageId == null ? 'disabled' : ''}" class="btn">次へ &gt;</a>
         <a th:href="@{/}" class="btn">TOP</a>
       </div>
     </form>
@@ -67,10 +71,18 @@
     </div>
     <div class="section">
       <div th:if="${preview == null}" class="preview-content empty-preview">（empty）</div>
-      <div th:if="${preview != null}" class="preview-content" th:utext="${preview}"></div>
+      <pre th:if="${preview != null and displayMode == 'code'}" class="code" th:text="${preview}"></pre>
+      <div th:if="${preview != null and displayMode != 'code'}" class="preview-content" th:utext="${preview}"></div>
     </div>
   </div>
 
 </div>
+<script>
+  const textarea = document.querySelector('textarea[name="userHtml"]');
+  const result = document.getElementById('result');
+  if (textarea && result) {
+    textarea.addEventListener('focus', () => result.style.display = 'none');
+  }
+</script>
 </body>
 </html>

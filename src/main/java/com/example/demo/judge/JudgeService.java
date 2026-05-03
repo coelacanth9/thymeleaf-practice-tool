@@ -35,7 +35,7 @@ public class JudgeService {
                     .filter(s -> !userHtml.contains(s))
                     .findFirst().orElse(null);
             if (missing != null) {
-                return new JudgeResult(false, "「" + missing + "」を使ってください", null, rendered);
+                return new JudgeResult(false, null, null, rendered);
             }
         }
 

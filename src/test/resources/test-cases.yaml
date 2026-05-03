@@ -24,6 +24,15 @@
 
 - stageId: 3
   cases:
+    - description: 正解（th:utext）
+      input: '<p th:utext="${message}"></p>'
+      shouldPass: true
+    - description: th:textだとHTMLがエスケープされる
+      input: '<p th:text="${message}"></p>'
+      shouldPass: false
+
+- stageId: 4
+  cases:
     - description: 正解
       input: '<div th:if="${age} >= 18">成年です</div>'
       shouldPass: true
@@ -31,7 +40,7 @@
       input: '<div>成年です</div>'
       shouldPass: false
 
-- stageId: 4
+- stageId: 5
   cases:
     - description: 正解
       input: '<div th:unless="${age} >= 18">未成年です</div>'
@@ -40,7 +49,16 @@
       input: '<div>未成年です</div>'
       shouldPass: false
 
-- stageId: 5
+- stageId: 6
+  cases:
+    - description: 正解
+      input: '<div th:switch="${lang}"><span th:case="''Java''">Javaです</span><span th:case="''Python''">Pythonです</span><span th:case="*">その他です</span></div>'
+      shouldPass: true
+    - description: th:ifで代替（th:switchなし）
+      input: '<div th:if="${lang == ''Java''}">Javaです</div>'
+      shouldPass: false
+
+- stageId: 7
   cases:
     - description: 正解
       input: '<ul><li th:each="item : ${users}" th:text="${item}"></li></ul>'
@@ -52,7 +70,7 @@
       input: '<ul><span th:each="item : ${users}" th:text="${item}"></span></ul>'
       shouldPass: false
 
-- stageId: 6
+- stageId: 8
   cases:
     - description: 正解
       input: |-
@@ -69,7 +87,7 @@
         </table>
       shouldPass: false
 
-- stageId: 7
+- stageId: 9
   cases:
     - description: 正解
       input: '<ul><li th:each="item, stat : ${items}" th:text="|${stat.count}: ${item}|"></li></ul>'
@@ -78,7 +96,7 @@
       input: '<ul><li th:each="item : ${items}" th:text="${item}"></li></ul>'
       shouldPass: false
 
-- stageId: 8
+- stageId: 10
   cases:
     - description: 正解（クエリストリング）
       input: '<a th:href="@{/(id=${itemId})}">商品</a>'
@@ -87,88 +105,7 @@
       input: '<a href="/?id=101">商品</a>'
       shouldPass: false
 
-- stageId: 9
-  cases:
-    - description: 正解
-      input: '<input type="text" th:value="${name}">'
-      shouldPass: true
-    - description: ベタ書き
-      input: '<input type="text" value="田中">'
-      shouldPass: false
-
-- stageId: 10
-  cases:
-    - description: 正解
-      input: '<form th:action="''/items/''+${itemId}+''/edit''"><button type="submit">編集</button></form>'
-      shouldPass: true
-    - description: ベタ書き
-      input: '<form action="/items/5/edit"><button type="submit">編集</button></form>'
-      shouldPass: false
-
 - stageId: 11
-  cases:
-    - description: 正解
-      input: '<select><option th:each="lang : ${langs}" th:value="${lang}" th:text="${lang}" th:selected="${lang == selectedLang}"></option></select>'
-      shouldPass: true
-    - description: th:selectedなし
-      input: '<select><option th:each="lang : ${langs}" th:value="${lang}" th:text="${lang}"></option></select>'
-      shouldPass: false
-
-- stageId: 12
-  cases:
-    - description: 正解
-      input: '<input type="checkbox" th:checked="${agreed}">'
-      shouldPass: true
-    - description: ベタ書き
-      input: '<input type="checkbox" checked="checked">'
-      shouldPass: false
-
-- stageId: 13
-  cases:
-    - description: 正解（th:utext）
-      input: '<p th:utext="${message}"></p>'
-      shouldPass: true
-    - description: th:textだとHTMLがエスケープされる
-      input: '<p th:text="${message}"></p>'
-      shouldPass: false
-
-- stageId: 14
-  cases:
-    - description: 正解
-      input: '<th:block th:if="${show}" th:text="${message}"></th:block>'
-      shouldPass: true
-    - description: divタグ使用（th:blockなし）
-      input: '<div th:if="${show}" th:text="${message}"></div>'
-      shouldPass: false
-
-- stageId: 15
-  cases:
-    - description: 正解
-      input: '<div th:object="${person}"><span th:text="|*{name}（*{age}歳）|"></span></div>'
-      shouldPass: true
-    - description: th:objectなし（直接参照）
-      input: '<div><p th:text="|${person.name}（${person.age}歳）|"></p></div>'
-      shouldPass: false
-
-- stageId: 16
-  cases:
-    - description: 正解
-      input: '<p th:with="fullName=${lastName} + '' '' + ${firstName}" th:text="${fullName}"></p>'
-      shouldPass: true
-    - description: th:withなし（リテラル置換で代替）
-      input: '<p th:text="|${lastName} ${firstName}|"></p>'
-      shouldPass: false
-
-- stageId: 17
-  cases:
-    - description: 正解
-      input: '<div th:switch="${lang}"><span th:case="''Java''">Javaです</span><span th:case="''Python''">Pythonです</span><span th:case="*">その他です</span></div>'
-      shouldPass: true
-    - description: th:ifで代替（th:switchなし）
-      input: '<div th:if="${lang == ''Java''}">Javaです</div>'
-      shouldPass: false
-
-- stageId: 18
   cases:
     - description: 正解（パスパラメータ）
       input: '<a th:href="@{/item/{id}(id=${itemId})}">商品詳細</a>'
@@ -180,7 +117,67 @@
       input: '<a th:href="@{/item(id=${itemId})}">商品詳細</a>'
       shouldPass: false
 
-- stageId: 19
+- stageId: 12
+  cases:
+    - description: 正解
+      input: '<input type="text" th:value="${name}">'
+      shouldPass: true
+    - description: ベタ書き
+      input: '<input type="text" value="田中">'
+      shouldPass: false
+
+- stageId: 13
+  cases:
+    - description: 正解
+      input: '<select><option th:each="lang : ${langs}" th:value="${lang}" th:text="${lang}" th:selected="${lang == selectedLang}"></option></select>'
+      shouldPass: true
+    - description: th:selectedなし
+      input: '<select><option th:each="lang : ${langs}" th:value="${lang}" th:text="${lang}"></option></select>'
+      shouldPass: false
+
+- stageId: 14
+  cases:
+    - description: 正解
+      input: '<input type="checkbox" th:checked="${agreed}">'
+      shouldPass: true
+    - description: ベタ書き
+      input: '<input type="checkbox" checked="checked">'
+      shouldPass: false
+
+- stageId: 15
+  cases:
+    - description: 正解
+      input: '<th:block th:if="${show}" th:text="${message}"></th:block>'
+      shouldPass: true
+    - description: divタグ使用（th:blockなし）
+      input: '<div th:if="${show}" th:text="${message}"></div>'
+      shouldPass: false
+
+- stageId: 16
+  cases:
+    - description: 正解
+      input: '<div th:object="${person}"><span th:text="|*{name}（*{age}歳）|"></span></div>'
+      shouldPass: true
+    - description: th:objectなし（直接参照）
+      input: '<div><p th:text="|${person.name}（${person.age}歳）|"></p></div>'
+      shouldPass: false
+
+- stageId: 17
+  cases:
+    - description: 正解
+      input: |-
+        <div th:with="fullName=${lastName} + ' ' + ${firstName}">
+          <p th:text="${fullName}"></p>
+        </div>
+      shouldPass: true
+    - description: th:withの定義が空
+      input: |-
+        <div th:with="">
+          <p th:text="${fullName}"></p>
+        </div>
+      shouldPass: false
+
+- stageId: 18
   cases:
     - description: 正解
       input: '<p th:text="${price * quantity}"></p>'
@@ -192,7 +189,7 @@
       input: '<p th:text="${price}"></p>'
       shouldPass: false
 
-- stageId: 20
+- stageId: 19
   cases:
     - description: 正解（三項演算子）
       input: '<p th:text="${age >= 18 ? ''成年'' : ''未成年''}"></p>'
