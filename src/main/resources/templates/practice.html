@@ -80,10 +80,12 @@
 
 </div>
 <script>
-  const textarea = document.querySelector('textarea[name="userHtml"]');
-  const result = document.getElementById('result');
-  if (textarea && result) {
-    textarea.addEventListener('focus', () => result.style.display = 'none');
+  {
+    const textarea = document.querySelector('textarea[name="userHtml"]');
+    const result = document.getElementById('result');
+    if (textarea && result) {
+      textarea.addEventListener('focus', () => result.style.display = 'none');
+    }
   }
 </script>
 <script type="module" th:src="@{/matrix.js}"></script>

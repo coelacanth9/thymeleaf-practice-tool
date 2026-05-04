@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class PracticeController {
@@ -29,7 +30,14 @@ public class PracticeController {
     @GetMapping("/stage/{id}")
     public String show(@PathVariable int id, Model model) {
         Stage stage = stageLoader.findById(id).orElseThrow();
-        populateModel(model, stage, stage.scaffold(), 0);
+        // flash属性がなければデフォルト値をセット
+        if (!model.containsAttribute("scaffold")) {
+            model.addAttribute("scaffold", stage.scaffold());
+        }
+        if (!model.containsAttribute("hintLevel")) {
+            model.addAttribute("hintLevel", 0);
+        }
+        addStageInfo(model, stage);
         return "practice";
     }
 
@@ -38,37 +46,41 @@ public class PracticeController {
             @PathVariable int id,
             @RequestParam String userHtml,
             @RequestParam(required = false, defaultValue = "0") int hintLevel,
-            Model model) {
+            RedirectAttributes redirectAttrs) {
 
         Stage stage = stageLoader.findById(id).orElseThrow();
-        populateModel(model, stage, userHtml, hintLevel);
+
+        redirectAttrs.addFlashAttribute("scaffold", userHtml);
+        redirectAttrs.addFlashAttribute("hintLevel", hintLevel);
 
         JudgeService.JudgeResult result = judgeService.judge(userHtml, stage);
         if (result.preview() != null) {
-            model.addAttribute("preview", result.preview());
+            redirectAttrs.addFlashAttribute("preview", result.preview());
         }
-        if (result.error() != null) {
-            model.addAttribute("error", result.error());
-        } else {
-            model.addAttribute("correct", result.correct());
-            if (result.diffMessage() != null) {
-                model.addAttribute("diffMessage", result.diffMessage());
+        if (hintLevel == 0) {
+            // 判定ボタン押下時のみ結果を表示
+            if (result.error() != null) {
+                redirectAttrs.addFlashAttribute("error", result.error());
+            } else {
+                redirectAttrs.addFlashAttribute("correct", result.correct());
+                if (result.diffMessage() != null) {
+                    redirectAttrs.addFlashAttribute("diffMessage", result.diffMessage());
+                }
             }
         }
-        return "practice";
+
+        return "redirect:/stage/" + id;
     }
 
-    private void populateModel(Model model, Stage stage, String scaffold, int hintLevel) {
+    private void addStageInfo(Model model, Stage stage) {
         model.addAttribute("stageId", stage.id());
         model.addAttribute("stageNum", stage.id());
         model.addAttribute("totalStages", stageLoader.totalCount());
         model.addAttribute("task", stage.task());
         model.addAttribute("modelData", stage.model());
         model.addAttribute("expectedHtml", stage.expectedHtml());
-        model.addAttribute("scaffold", scaffold);
         model.addAttribute("hint", stage.hint());
         model.addAttribute("hintDetail", stage.hintDetail());
-        model.addAttribute("hintLevel", hintLevel);
         model.addAttribute("displayMode", stage.displayMode());
         stageLoader.findById(stage.id() + 1)
                 .ifPresent(next -> model.addAttribute("nextStageId", next.id()));
