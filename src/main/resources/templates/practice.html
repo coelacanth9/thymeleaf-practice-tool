@@ -61,6 +61,7 @@
         <a th:href="${prevStageId != null ? '/stage/' + prevStageId : null}" th:classappend="${prevStageId == null ? 'disabled' : ''}" class="btn">&lt; 前へ</a>
         <a th:href="${nextStageId != null ? '/stage/' + nextStageId : null}" th:classappend="${nextStageId == null ? 'disabled' : ''}" class="btn">次へ &gt;</a>
         <a th:href="@{/}" class="btn">TOP</a>
+        <button type="button" id="matrix-toggle" class="btn">背景: ON</button>
       </div>
     </form>
   </div>
@@ -85,6 +86,6 @@
     textarea.addEventListener('focus', () => result.style.display = 'none');
   }
 </script>
-<script th:src="@{/matrix.js}"></script>
+<script type="module" th:src="@{/matrix.js}"></script>
 </body>
 </html>
