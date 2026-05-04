@@ -131,7 +131,7 @@ document.addEventListener('turbo:load', () => {
 
 // --- Turbo: ナビゲーション前に wrapper を新 body へ移動 ---
 document.addEventListener('turbo:before-render', (e) => {
-  e.detail.newBody.style.background = 'transparent';
+  if (intervalId) e.detail.newBody.style.background = 'transparent';
   e.detail.newBody.appendChild(wrapper);
 });
 
