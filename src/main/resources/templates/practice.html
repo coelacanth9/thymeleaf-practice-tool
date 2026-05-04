@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <title>Thymeleaf Practice Tool</title>
 <link rel="stylesheet" th:href="@{/style.css}">
+<script src="https://cdn.jsdelivr.net/npm/@hotwired/turbo@8/dist/turbo.es2017-umd.js"></script>
 </head>
 <body>
 <div class="container">
@@ -84,5 +85,6 @@
     textarea.addEventListener('focus', () => result.style.display = 'none');
   }
 </script>
+<script th:src="@{/matrix.js}"></script>
 </body>
 </html>
